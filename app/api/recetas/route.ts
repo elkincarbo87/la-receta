@@ -8,6 +8,7 @@ export async function GET() {
       _count: {
         select: { ingredients: true },
       },
+      tags: true,
     },
   });
   return NextResponse.json(recipes);
@@ -16,19 +17,30 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, date, notes, ingredients } = body;
+    const { name, date, notes, ingredients, tags, rating, imageUrl } = body;
+
+    const tagData = tags?.map((tagName: string) => ({
+      where: { name: tagName },
+      create: { name: tagName },
+    }));
 
     const recipe = await prisma.recipe.create({
       data: {
         name,
         date: date ? new Date(date) : new Date(),
         notes,
+        rating,
+        imageUrl,
         ingredients: {
           create: ingredients,
+        },
+        tags: {
+          connectOrCreate: tagData,
         },
       },
       include: {
         ingredients: true,
+        tags: true,
       },
     });
 

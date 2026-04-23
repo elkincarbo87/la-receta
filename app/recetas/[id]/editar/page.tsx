@@ -8,7 +8,7 @@ export default async function EditRecipePage({ params }: { params: Promise<{ id:
   const { id } = await params;
   const recipe = await prisma.recipe.findUnique({
     where: { id },
-    include: { ingredients: true },
+    include: { ingredients: true, tags: true },
   });
 
   if (!recipe) {
@@ -19,6 +19,8 @@ export default async function EditRecipePage({ params }: { params: Promise<{ id:
     name: recipe.name,
     date: recipe.date.toISOString().split("T")[0],
     notes: recipe.notes ?? "",
+    tags: recipe.tags.map((t) => t.name),
+    rating: recipe.rating,
     ingredients: recipe.ingredients.map((i) => ({
       name: i.name,
       quantity: i.quantity,

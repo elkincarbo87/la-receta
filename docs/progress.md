@@ -24,14 +24,21 @@
 - [x] Error handling (404, API errors)
 - [x] Accessibility pass (keyboard nav, labels)
 
-## Phase 4: Deployment
-- [ ] Create production build
-- [ ] Set up Vercel project
-- [ ] Configure production database
-- [ ] Deploy
+## Phase 5: v0.2 Features
+- [x] Search & Filter – find recipes by name from the dashboard
+- [x] Tags / Categories – label recipes
+- [x] Ratings – star rating per recipe
+- [x] Sorting – sort by date, name, or rating
+- [x] Duplicate Recipe – clone an existing recipe
+
+## Phase 6: v0.3 Features
+- [x] Batch / Scaling – auto-calculate ingredient quantities when scaling a recipe
+- [ ] Image Upload – attach a photo of the finished batch (Vercel Blob)
+- [ ] Export to PDF – printable recipe card for the kitchen
+- [ ] Shared Collections – public or invite-only recipe collections
 
 ## Current Status
-**Phase 3 complete** – core features built, tested, and polished. Ready for deployment.
+**Phase 6 in progress** – building v0.3 features (Image Upload next).
 
 For upcoming features and long-term priorities, see `ROADMAP.md`.
 

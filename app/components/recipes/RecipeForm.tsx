@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { TagInput } from "./TagInput";
+import { StarRating } from "./StarRating";
+import { ImageUpload } from "./ImageUpload";
 import { Plus, Trash2, Loader2 } from "lucide-react";
 
 const ingredientSchema = z.object({
@@ -21,6 +24,9 @@ const recipeSchema = z.object({
   name: z.string().min(1, "Nombre de la receta requerido"),
   date: z.string().min(1, "Fecha requerida"),
   notes: z.string().optional(),
+  tags: z.array(z.string()),
+  rating: z.number().min(0).max(5).nullable().optional(),
+  imageUrl: z.string().nullable().optional(),
   ingredients: z.array(ingredientSchema).min(1, "Agrega al menos un ingrediente"),
 });
 
@@ -42,6 +48,9 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
       name: "",
       date: new Date().toISOString().split("T")[0],
       notes: "",
+      tags: [],
+      rating: null,
+      imageUrl: null,
       ingredients: [{ name: "", quantity: "", unit: "" }],
     },
   });
@@ -50,6 +59,10 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
     control: form.control,
     name: "ingredients",
   });
+
+  const tags = useWatch({ control: form.control, name: "tags" }) ?? [];
+  const rating = useWatch({ control: form.control, name: "rating" }) ?? null;
+  const imageUrl = useWatch({ control: form.control, name: "imageUrl" }) ?? null;
 
   async function onSubmit(data: RecipeFormValues) {
     setSubmitting(true);
@@ -90,6 +103,30 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
           {form.formState.errors.date && (
             <p className="text-sm text-destructive">{form.formState.errors.date.message}</p>
           )}
+        </div>
+
+        <div className="space-y-2">
+          <Label>Calificación</Label>
+          <StarRating
+            rating={rating}
+            onChange={(r) => form.setValue("rating", r, { shouldValidate: true })}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label>Imagen</Label>
+          <ImageUpload
+            value={imageUrl}
+            onChange={(url) => form.setValue("imageUrl", url, { shouldValidate: true })}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label>Etiquetas</Label>
+          <TagInput
+            tags={tags}
+            onChange={(newTags) => form.setValue("tags", newTags, { shouldValidate: true })}
+          />
         </div>
 
         <div className="space-y-2">
