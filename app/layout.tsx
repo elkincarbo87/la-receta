@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Heladera - Ice Cream Recipe Tracker",
+  title: "Casa Nieve Lab - Ice Cream Recipe Tracker",
   description: "Save and manage your ice cream recipes",
 };
 
@@ -34,7 +34,7 @@ export default function RootLayout({
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex h-14 items-center">
             <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
               <IceCream className="h-5 w-5" />
-              Heladera
+              Casa Nieve Lab
             </Link>
             <nav className="ml-auto flex items-center gap-4">
               <Link

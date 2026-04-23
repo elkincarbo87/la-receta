@@ -1,4 +1,4 @@
-# Heladera – Ice Cream Recipe Tracker
+# Casa Nieve Lab – Ice Cream Recipe Tracker
 
 ## Project Overview
 A web application for saving, viewing, and managing ice cream recipes during testing/development. Each recipe includes a name, date, list of ingredients with quantities, and optional notes.
@@ -102,3 +102,5 @@ Supabase uses a connection pooler for serverless compatibility. `DATABASE_URL` (
 
 ### Documentation
 - **Always update the docs before making changes.** If a PR, feature, or refactor affects architecture, requirements, or APIs, update `CLAUDE.md`, `docs/tech-spec.md`, `docs/progress.md`, or `ROADMAP.md` accordingly before committing code.
+- **Always keep `README.md` in sync.** After any change that affects the tech stack, project structure, environment variables, database schema, or setup instructions, update `README.md` immediately. It should always reflect the current state of the project for a new contributor.
+- **Keep the SQLite dev database in sync with PostgreSQL schema changes.** If a schema change is made for PostgreSQL (new tables, columns, or relations), apply the equivalent change to the local `prisma/dev.db` SQLite file so that `DATABASE_URL="file:./dev.db"` remains a valid fallback for local development without Supabase. Ensure both SQLite and PostgreSQL migrations are kept up to date.
