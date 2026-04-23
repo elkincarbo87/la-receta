@@ -109,6 +109,15 @@ Supabase uses a connection pooler for serverless compatibility. `DATABASE_URL` (
 - **Run `npm run lint` after making changes.** Ensure the codebase passes linting before considering the task complete.
 - **Run `npm run build` after making changes.** Ensure the build completes successfully without errors before considering the task complete.
 
+### Mobile-First Design
+- **Always design for mobile first.** Every UI change must work on screens as small as 375px wide.
+- **Use responsive Tailwind classes.** Stack elements vertically on mobile (`flex-col`) and side-by-side on desktop (`sm:flex-row`). Use `grid-cols-1` as the default and add breakpoints (`sm:`, `lg:`) for larger screens.
+- **Minimum touch target is 44×44px.** Buttons, links, and interactive elements must be easy to tap. Add padding or increase size when necessary.
+- **Avoid fixed widths on mobile.** Use `w-full` by default and constrain on larger screens with responsive prefixes (`sm:w-[180px]`).
+- **Handle text overflow.** Use `break-words`, `truncate`, or `line-clamp` for long text. Add `min-w-0` to flex containers so children can shrink.
+- **Test tables on small screens.** Wrap tables in `overflow-x-auto` or switch to card-based layouts on mobile.
+- **Images must be responsive.** Use relative heights (`h-64 sm:h-80 lg:h-96`) instead of fixed tall values. Gallery navigation arrows need larger touch targets on mobile.
+
 ### Next.js Best Practices
 - **Always use `<Image />` from `next/image` instead of raw `<img>` tags.** This is required for automatic image optimization, proper lazy loading, and avoiding layout shift. For external or dynamic images (including base64 data URLs), use the `unoptimized` prop when Next.js image optimization is not applicable.
 
