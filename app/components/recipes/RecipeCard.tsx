@@ -26,14 +26,14 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
 
   return (
     <Link href={`/recetas/${recipe.id}`} className="block h-full">
-      <Card className="h-[420px] flex flex-col hover:bg-accent/50 transition-colors cursor-pointer overflow-hidden">
-        <div className="relative h-40 shrink-0 overflow-hidden">
+      <Card className="h-[340px] flex flex-col gap-0 p-0 hover:bg-accent/50 transition-colors cursor-pointer overflow-hidden">
+        <div className="relative flex-1 min-h-0 overflow-hidden">
           <RecipeImage
             src={recipe.imageUrl}
             alt={recipe.name}
           />
         </div>
-        <CardHeader className="pb-2 shrink-0">
+        <CardHeader className="py-3 px-4 shrink-0">
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-semibold text-lg leading-tight line-clamp-2">{recipe.name}</h3>
             {recipe.rating != null && (
@@ -41,8 +41,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
             )}
           </div>
         </CardHeader>
-        <div className="flex-1 min-h-0" />
-        <CardContent className="text-sm text-muted-foreground space-y-2 shrink-0">
+        <CardContent className="py-3 px-4 text-sm text-muted-foreground space-y-1 shrink-0">
           <div className="flex items-center gap-1.5">
             <Calendar className="h-3.5 w-3.5 shrink-0" />
             <span>{formattedDate}</span>
@@ -51,7 +50,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
             <FlaskConical className="h-3.5 w-3.5 shrink-0" />
             <span>{recipe._count.ingredients} ingredientes</span>
           </div>
-          <div className="h-6">
+          <div className="h-5">
             {recipe.tags.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {recipe.tags.slice(0, 2).map((tag) => (
