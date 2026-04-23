@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Slider } from "@/components/ui/slider";
+import { parseQuantity, formatQuantity } from "@/app/lib/scaling";
 
 interface Ingredient {
   id: string;
@@ -14,30 +14,16 @@ interface Ingredient {
 
 interface ScaledIngredientTableProps {
   ingredients: Ingredient[];
-}
-
-function parseQuantity(q: string): number | null {
-  const trimmed = q.trim().replace(",", ".");
-  if (trimmed.includes("/")) {
-    const [numStr, denStr] = trimmed.split("/");
-    const num = parseFloat(numStr);
-    const den = parseFloat(denStr);
-    if (!isNaN(num) && !isNaN(den) && den !== 0) return num / den;
-  }
-  const n = parseFloat(trimmed);
-  return isNaN(n) ? null : n;
-}
-
-function formatQuantity(n: number): string {
-  if (Number.isInteger(n)) return String(n);
-  const rounded = Math.round(n * 100) / 100;
-  return String(rounded);
+  scale?: number;
+  onScaleChange?: (scale: number) => void;
 }
 
 const PRESETS = [0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4];
 
-export function ScaledIngredientTable({ ingredients }: ScaledIngredientTableProps) {
-  const [scale, setScale] = useState(1);
+export function ScaledIngredientTable({ ingredients, scale = 1, onScaleChange }: ScaledIngredientTableProps) {
+  const isControlled = onScaleChange != null;
+  const currentScale = scale;
+  const setScale = isControlled ? onScaleChange : () => {};
 
   return (
     <Card>
@@ -46,10 +32,10 @@ export function ScaledIngredientTable({ ingredients }: ScaledIngredientTableProp
           <CardTitle className="text-base">Ingredientes</CardTitle>
           <div className="flex items-center gap-3">
             <span className="text-sm text-muted-foreground whitespace-nowrap">
-              Escala: <strong className="text-foreground">{scale}x</strong>
+              Escala: <strong className="text-foreground">{currentScale}x</strong>
             </span>
             <Slider
-              value={[scale]}
+              value={[currentScale]}
               onValueChange={([v]) => setScale(v)}
               min={0.25}
               max={4}
@@ -65,7 +51,7 @@ export function ScaledIngredientTable({ ingredients }: ScaledIngredientTableProp
               type="button"
               onClick={() => setScale(p)}
               className={`text-xs px-2 py-1 rounded-md border transition-colors ${
-                scale === p
+                currentScale === p
                   ? "bg-primary text-primary-foreground border-primary"
                   : "bg-background text-muted-foreground border-border hover:bg-accent"
               }`}
@@ -86,7 +72,7 @@ export function ScaledIngredientTable({ ingredients }: ScaledIngredientTableProp
           <TableBody>
             {ingredients.map((ingredient) => {
               const base = parseQuantity(ingredient.quantity);
-              const scaled = base != null ? base * scale : null;
+              const scaled = base != null ? base * currentScale : null;
 
               return (
                 <TableRow key={ingredient.id}>
@@ -95,7 +81,7 @@ export function ScaledIngredientTable({ ingredients }: ScaledIngredientTableProp
                     {scaled != null ? (
                       <span>
                         {formatQuantity(scaled)} {ingredient.unit}
-                        {scale !== 1 && (
+                        {currentScale !== 1 && (
                           <span className="text-muted-foreground text-xs ml-1">
                             ({ingredient.quantity} {ingredient.unit})
                           </span>

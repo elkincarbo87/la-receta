@@ -21,6 +21,7 @@ export default async function EditRecipePage({ params }: { params: Promise<{ id:
     notes: recipe.notes ?? "",
     tags: recipe.tags.map((t) => t.name),
     rating: recipe.rating,
+    imageUrl: recipe.imageUrl,
     ingredients: recipe.ingredients.map((i) => ({
       name: i.name,
       quantity: i.quantity,

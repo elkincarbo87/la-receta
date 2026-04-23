@@ -5,10 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StarRating } from "@/app/components/recipes/StarRating";
-import { ScaledIngredientTable } from "@/app/components/recipes/ScaledIngredientTable";
-import { Calendar, ArrowLeft, Pencil, Tag } from "lucide-react";
-import { DeleteRecipeButton } from "@/app/components/recipes/DeleteRecipeButton";
-import { DuplicateRecipeButton } from "@/app/components/recipes/DuplicateRecipeButton";
+import { RecipeActions } from "@/app/components/recipes/RecipeActions";
+import { Calendar, ArrowLeft, Tag } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +38,14 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
         <h1 className="text-2xl font-bold tracking-tight">{recipe.name}</h1>
       </div>
 
+      {recipe.imageUrl && (
+        <img
+          src={recipe.imageUrl}
+          alt={recipe.name}
+          className="rounded-lg border max-h-64 object-cover"
+        />
+      )}
+
       <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
         <div className="flex items-center gap-1.5">
           <Calendar className="h-4 w-4" />
@@ -60,7 +66,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
         )}
       </div>
 
-      <ScaledIngredientTable ingredients={recipe.ingredients} />
+      <RecipeActions recipe={recipe} />
 
       {recipe.notes && (
         <Card>
@@ -72,17 +78,6 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
           </CardContent>
         </Card>
       )}
-
-      <div className="flex items-center gap-3 pt-4">
-        <Link href={`/recetas/${recipe.id}/editar`}>
-          <Button variant="outline">
-            <Pencil className="h-4 w-4 mr-2" />
-            Editar
-          </Button>
-        </Link>
-        <DuplicateRecipeButton recipeId={recipe.id} />
-        <DeleteRecipeButton recipeId={recipe.id} />
-      </div>
     </div>
   );
 }

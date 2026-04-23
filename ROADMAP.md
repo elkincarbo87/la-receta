@@ -8,19 +8,19 @@ Core CRUD for ice cream recipes.
 - [x] Responsive layout
 - [x] Empty state
 
-## Next – v0.2 (Short Term)
+## Next – v0.2 (Shipped)
 Make the app actually usable day-to-day.
-- [ ] **Search & Filter** – find recipes by name from the dashboard
-- [ ] **Tags / Categories** – label recipes (e.g., "chocolate", "vegan", "testing")
-- [ ] **Ratings** – star rating per recipe to track which experiments worked
-- [ ] **Sorting** – sort by date, name, or rating
-- [ ] **Duplicate Recipe** – clone an existing recipe to tweak it
+- [x] **Search & Filter** – find recipes by name from the dashboard
+- [x] **Tags / Categories** – label recipes (e.g., "chocolate", "vegan", "testing")
+- [x] **Ratings** – star rating per recipe to track which experiments worked
+- [x] **Sorting** – sort by date, name, or rating
+- [x] **Duplicate Recipe** – clone an existing recipe to tweak it
 
-## Later – v0.3 (Medium Term)
+## Later – v0.3 (In Progress)
 Scale up the workflow.
-- [ ] **Batch / Scaling** – auto-calculate ingredient quantities when scaling a recipe up or down
-- [ ] **Image Upload** – attach a photo of the finished batch (Vercel Blob)
-- [ ] **Export to PDF** – printable recipe card for the kitchen
+- [x] **Batch / Scaling** – auto-calculate ingredient quantities when scaling a recipe up or down
+- [x] **Image Upload** – attach a photo of the finished batch (base64 in SQLite)
+- [x] **Export to PDF** – printable recipe card for the kitchen
 - [ ] **Shared Collections** – public or invite-only recipe collections
 
 ## Future – v1.0 (Long Term)
