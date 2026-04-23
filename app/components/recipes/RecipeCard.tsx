@@ -26,14 +26,11 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
 
   return (
     <Link href={`/recetas/${recipe.id}`} className="block h-full">
-      <Card className="h-full flex flex-col hover:bg-accent/50 transition-colors cursor-pointer overflow-hidden">
-        <div className="shrink-0">
+      <Card className="h-[420px] flex flex-col hover:bg-accent/50 transition-colors cursor-pointer overflow-hidden">
+        <div className="relative h-40 shrink-0 overflow-hidden">
           <RecipeImage
             src={recipe.imageUrl}
             alt={recipe.name}
-            width={400}
-            height={160}
-            className="w-full h-40 object-cover"
           />
         </div>
         <CardHeader className="pb-2 shrink-0">

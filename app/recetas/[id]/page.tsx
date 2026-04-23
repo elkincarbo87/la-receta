@@ -40,13 +40,13 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
       </div>
 
       {recipe.imageUrl && (
-        <RecipeImage
-          src={recipe.imageUrl}
-          alt={recipe.name}
-          width={800}
-          height={384}
-          className="rounded-lg border w-full max-h-96 object-cover"
-        />
+        <div className="relative w-full h-96 overflow-hidden rounded-lg border">
+          <RecipeImage
+            src={recipe.imageUrl}
+            alt={recipe.name}
+            className="object-cover"
+          />
+        </div>
       )}
 
       <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
