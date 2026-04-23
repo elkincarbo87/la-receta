@@ -6,7 +6,8 @@ A web application for saving, viewing, and managing ice cream recipes during tes
 See `ROADMAP.md` for upcoming features and priorities.
 
 ## Tech Stack
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
+- **Auth**: NextAuth.js v5 (Auth.js) with Credentials provider
 - **UI**: React 19, Tailwind CSS, shadcn/ui
 - **Database**: Prisma ORM + Supabase PostgreSQL
 - **Forms**: React Hook Form + Zod
@@ -15,35 +16,95 @@ See `ROADMAP.md` for upcoming features and priorities.
 ## Project Structure
 ```
 app/
+  (auth)/
+    login/page.tsx          # Login page
   (routes)/
-    page.tsx              # Dashboard – list all recipes
+    page.tsx                # Dashboard – list all recipes
     recetas/
-      nueva/page.tsx      # Create recipe form
-      [id]/page.tsx       # Recipe detail view
+      nueva/page.tsx        # Create recipe form
+      [id]/page.tsx         # Recipe detail view
       [id]/editar/page.tsx # Edit recipe form
+  admin/
+    page.tsx                # Admin user management panel
+    AdminPanel.tsx          # Admin client component
   api/
-    recetas/route.ts      # REST endpoints for recipes
-    recetas/[id]/route.ts # Single recipe CRUD
+    auth/[...nextauth]/route.ts # NextAuth API route
+    recetas/route.ts        # REST endpoints for recipes (auth required)
+    recetas/[id]/route.ts   # Single recipe CRUD (auth required)
+    recetas/[id]/duplicar/route.ts # Duplicate recipe (auth required)
+    users/route.ts          # Admin user list + create
+    users/[id]/route.ts     # Admin user update + delete
   components/
-    ui/                   # shadcn components
-    recipes/              # Domain-specific components
+    ui/                     # shadcn components
+    recipes/                # Domain-specific components
+    auth/
+      SessionProviderWrapper.tsx # Client session provider
+      UserNav.tsx           # Header user menu + sign out
   lib/
-    prisma.ts             # Prisma client singleton
-    utils.ts              # cn() and helpers
+    prisma.ts               # Prisma client singleton
+    utils.ts                # cn() and helpers
+auth.ts                     # NextAuth configuration
+middleware.ts               # Route protection middleware
 prisma/
-  schema.prisma           # Database schema
+  schema.prisma             # Database schema
+  seed.ts                   # Seed script (creates admin user)
 ```
 
 ## Database Schema
 ```prisma
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  password      String
+  role          String    @default("USER") // "ADMIN" or "USER"
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  recipes       Recipe[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+}
+
 model Recipe {
-  id          String       @id @default(cuid())
-  name        String       @unique
-  date        DateTime     @default(now())
+  id          String   @id @default(cuid())
+  name        String   @unique
+  date        DateTime @default(now())
   notes       String?
   rating      Int?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   ingredients Ingredient[]
   tags        Tag[]
   photos      Photo[]
@@ -58,6 +119,12 @@ model Ingredient {
   recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 }
 
+model Tag {
+  id      String @id @default(cuid())
+  name    String @unique
+  recipes Recipe[]
+}
+
 model Photo {
   id        String   @id @default(cuid())
   url       String
@@ -68,6 +135,26 @@ model Photo {
 }
 ```
 
+## Authentication
+
+### Overview
+- **Provider**: Credentials (email + password) via NextAuth.js v5
+- **Roles**: `ADMIN` and `USER`
+- **Admin creates users**: Only admins can create, edit, and delete users via `/admin`
+- **Default admin**: Seeded with `admin@casanieve.com` / `admin123`
+
+### Auth Patterns
+- **Middleware** (`middleware.ts`): Protects all routes except `/login` and `/api/auth/*`. Unauthenticated users are redirected to `/login`.
+- **API routes**: All `/api/recetas/*` routes call `auth()` and return 401 if not authenticated.
+- **Admin routes**: `/api/users/*` routes check `session.user.role === "ADMIN"` and return 403 for non-admins.
+- **Admin panel**: `/admin` page redirects non-admins to `/`.
+
+### Key Files
+- `auth.ts` — NextAuth config (Credentials provider, JWT strategy, role callbacks)
+- `middleware.ts` — Route protection
+- `app/api/auth/[...nextauth]/route.ts` — Auth API handlers
+- `types/next-auth.d.ts` — Extended NextAuth types (role, id on session)
+
 ## Key Patterns
 - Use **Server Components** for list/detail pages (fetch directly via Prisma).
 - Use **Client Components** only for forms (interactivity + React Hook Form).
@@ -77,6 +164,7 @@ model Photo {
 ## Commands
 - `npm run dev` – start dev server
 - `npx prisma migrate dev` – apply schema changes
+- `npx prisma db seed` – seed the admin user
 - `npx prisma studio` – open DB GUI
 - `npx shadcn add <component>` – add UI components
 
@@ -86,10 +174,12 @@ model Photo {
 ```
 DIRECT_URL="postgresql://postgres:[PASS]@db.[REF].supabase.co:5432/postgres"
 DATABASE_URL="postgresql://postgres:[PASS]@db.[REF].supabase.co:6543/postgres?pgbouncer=true&connection_limit=1"
+AUTH_SECRET="generate-with-openssl-rand-base64-32"
+AUTH_URL="http://localhost:3000"
 ```
 
 ### Vercel Production
-Set the same two variables in your Vercel project settings. Use the **Pooled Connection** (port 6543) for `DATABASE_URL`.
+Set the same variables in your Vercel project settings. Use the **Pooled Connection** (port 6543) for `DATABASE_URL`. Generate a new `AUTH_SECRET` for production.
 
 ### Why Two URLs?
 Supabase uses a connection pooler for serverless compatibility. `DATABASE_URL` (port 6543) is pooled and used by the running app. `DIRECT_URL` (port 5432) is direct and used by Prisma for migrations.

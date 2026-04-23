@@ -25,7 +25,7 @@ Scale up the workflow.
 
 ## Future – v1.0 (Long Term)
 Professional-grade tool.
-- [ ] **User Accounts** – multi-user support with auth (Clerk / NextAuth)
+- [ ] **User Accounts** – multi-user support with auth (NextAuth.js v5) ✅
 - [ ] **Version History** – track changes across recipe iterations
 - [ ] **Analytics Dashboard** – visualize ingredient costs, success rates, seasonal trends
 - [ ] **API / Integrations** – webhooks, export to Google Sheets, POS integrations

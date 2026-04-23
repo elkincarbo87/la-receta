@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/auth";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const session = await auth();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { id } = await params;
 
   try {
@@ -28,6 +34,7 @@ export async function POST(
         date: original.date,
         notes: original.notes,
         rating: original.rating,
+        userId: session.user.id,
         ingredients: {
           create: original.ingredients.map((i) => ({
             name: i.name,

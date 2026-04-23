@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { IceCream } from "lucide-react";
+import { SessionProviderWrapper } from "./components/auth/SessionProviderWrapper";
+import { UserNav } from "./components/auth/UserNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,25 +32,28 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex h-14 items-center">
-            <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
-              <IceCream className="h-5 w-5" />
-              Casa Nieve Lab
-            </Link>
-            <nav className="ml-auto flex items-center gap-4">
-              <Link
-                href="/recetas/nueva"
-                className="text-sm font-medium text-primary hover:underline underline-offset-4"
-              >
-                Nueva Receta
+        <SessionProviderWrapper>
+          <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex h-14 items-center">
+              <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
+                <IceCream className="h-5 w-5" />
+                Casa Nieve Lab
               </Link>
-            </nav>
-          </div>
-        </header>
-        <main className="flex-1 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
-          {children}
-        </main>
+              <nav className="ml-auto flex items-center gap-4">
+                <Link
+                  href="/recetas/nueva"
+                  className="text-sm font-medium text-primary hover:underline underline-offset-4"
+                >
+                  Nueva Receta
+                </Link>
+                <UserNav />
+              </nav>
+            </div>
+          </header>
+          <main className="flex-1 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
+            {children}
+          </main>
+        </SessionProviderWrapper>
       </body>
     </html>
   );

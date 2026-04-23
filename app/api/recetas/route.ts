@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/auth";
 
 export async function GET() {
+  const session = await auth();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const recipes = await prisma.recipe.findMany({
     orderBy: { createdAt: "desc" },
     include: {
@@ -19,6 +25,11 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const session = await auth();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const { name, date, notes, ingredients, tags, rating, photos } = body;
@@ -39,6 +50,7 @@ export async function POST(request: NextRequest) {
         date: date ? new Date(date) : new Date(),
         notes,
         rating,
+        userId: session.user.id,
         ingredients: {
           create: ingredients,
         },
