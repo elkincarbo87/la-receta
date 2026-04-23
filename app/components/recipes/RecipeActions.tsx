@@ -45,9 +45,9 @@ export function RecipeActions({ recipe }: RecipeActionsProps) {
         onScaleChange={setScale}
       />
 
-      <div className="flex items-center gap-3 pt-4">
+      <div className="flex flex-wrap items-center gap-3 pt-4">
         <Link href={`/recetas/${recipe.id}/editar`}>
-          <Button variant="outline">
+          <Button variant="outline" className="h-10 px-4">
             <Pencil className="h-4 w-4 mr-2" />
             Editar
           </Button>

@@ -61,12 +61,12 @@ export function ScaledIngredientTable({ ingredients, scale = 1, onScaleChange }:
           ))}
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Ingrediente</TableHead>
-              <TableHead className="text-right">Cantidad</TableHead>
+              <TableHead className="min-w-[140px]">Ingrediente</TableHead>
+              <TableHead className="text-right min-w-[100px]">Cantidad</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

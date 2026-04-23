@@ -31,7 +31,7 @@ export function SearchInput() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full max-w-sm">
+    <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
       <div className="relative flex-1">
         <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input

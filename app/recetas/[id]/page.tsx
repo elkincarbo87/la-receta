@@ -36,13 +36,13 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 min-w-0">
         <Link href="/">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="shrink-0">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold tracking-tight">{recipe.name}</h1>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight break-words min-w-0">{recipe.name}</h1>
       </div>
 
       {recipe.photos.length > 0 && (

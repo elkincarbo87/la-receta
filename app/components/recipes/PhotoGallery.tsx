@@ -27,7 +27,7 @@ export function PhotoGallery({ photos, alt }: PhotoGalleryProps) {
 
   return (
     <div className="space-y-3">
-      <div className="relative w-full h-96 overflow-hidden rounded-lg border bg-muted">
+      <div className="relative w-full h-64 sm:h-80 lg:h-96 overflow-hidden rounded-lg border bg-muted">
         <Image
           src={currentPhoto.url}
           alt={`${alt} - ${currentIndex + 1}`}
@@ -35,6 +35,7 @@ export function PhotoGallery({ photos, alt }: PhotoGalleryProps) {
           unoptimized
           className="object-cover"
           sizes="100vw"
+          priority
         />
         {photos.length > 1 && (
           <>
@@ -42,19 +43,19 @@ export function PhotoGallery({ photos, alt }: PhotoGalleryProps) {
               type="button"
               variant="secondary"
               size="icon"
-              className="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full opacity-80 hover:opacity-100"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full opacity-80 hover:opacity-100"
               onClick={prevPhoto}
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
             </Button>
             <Button
               type="button"
               variant="secondary"
               size="icon"
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full opacity-80 hover:opacity-100"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full opacity-80 hover:opacity-100"
               onClick={nextPhoto}
             >
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
             </Button>
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
               {currentIndex + 1} / {photos.length}
@@ -70,7 +71,7 @@ export function PhotoGallery({ photos, alt }: PhotoGalleryProps) {
               key={photo.id}
               type="button"
               onClick={() => setCurrentIndex(index)}
-              className={`relative h-16 w-16 shrink-0 rounded-md border overflow-hidden transition-all ${
+              className={`relative h-14 w-14 sm:h-16 sm:w-16 shrink-0 rounded-md border overflow-hidden transition-all ${
                 index === currentIndex
                   ? "ring-2 ring-primary ring-offset-1"
                   : "opacity-70 hover:opacity-100"

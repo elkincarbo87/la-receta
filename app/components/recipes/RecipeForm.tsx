@@ -156,8 +156,8 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
 
         <div className="space-y-3">
           {fields.map((field, index) => (
-            <div key={field.id} className="grid grid-cols-12 gap-3 items-end">
-              <div className="col-span-5 space-y-1">
+            <div key={field.id} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+              <div className="sm:col-span-5 space-y-1">
                 <Input
                   {...form.register(`ingredients.${index}.name`)}
                   placeholder="Nombre"
@@ -168,7 +168,7 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
                   </p>
                 )}
               </div>
-              <div className="col-span-3 space-y-1">
+              <div className="sm:col-span-3 space-y-1">
                 <Input
                   {...form.register(`ingredients.${index}.quantity`)}
                   placeholder="Cantidad"
@@ -179,7 +179,7 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
                   </p>
                 )}
               </div>
-              <div className="col-span-3 space-y-1">
+              <div className="sm:col-span-3 space-y-1">
                 <Input
                   {...form.register(`ingredients.${index}.unit`)}
                   placeholder="Unidad"
@@ -190,13 +190,14 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
                   </p>
                 )}
               </div>
-              <div className="col-span-1">
+              <div className="sm:col-span-1 flex justify-end sm:justify-start">
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
                   onClick={() => remove(index)}
                   disabled={fields.length <= 1}
+                  className="h-10 w-10"
                 >
                   <Trash2 className="h-4 w-4 text-destructive" />
                 </Button>

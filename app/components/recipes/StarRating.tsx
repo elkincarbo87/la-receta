@@ -20,7 +20,12 @@ export function StarRating({ rating, onChange, size = "md" }: StarRatingProps) {
           type="button"
           disabled={!isInteractive}
           onClick={() => onChange?.(star)}
-          className={`${isInteractive ? "cursor-pointer hover:scale-110" : "cursor-default"} transition-transform`}
+          className={`${
+            isInteractive
+              ? "cursor-pointer hover:scale-110 active:scale-95"
+              : "cursor-default"
+          } transition-transform p-1 -m-1 min-w-[36px] min-h-[36px] flex items-center justify-center`}
+          aria-label={isInteractive ? `Calificar con ${star} estrellas` : `${star} estrellas`}
         >
           <Star
             className={`${sizeClasses} ${
