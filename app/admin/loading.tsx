@@ -10,7 +10,7 @@ export default function AdminLoading() {
       </div>
       <div className="grid gap-4">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="flex items-center justify-between rounded-lg border p-4">
+          <div key={i} className="flex items-center justify-between rounded-lg border border-border p-4">
             <div className="space-y-2">
               <div className="h-5 w-32 bg-muted animate-pulse rounded" />
               <div className="h-4 w-48 bg-muted animate-pulse rounded" />

@@ -16,7 +16,7 @@ export default function RecipeDetailLoading() {
         <div className="h-9 w-24 bg-muted animate-pulse rounded" />
         <div className="h-9 w-24 bg-muted animate-pulse rounded" />
       </div>
-      <div className="rounded-lg border p-4 space-y-3">
+      <div className="rounded-lg border border-border p-4 space-y-3">
         <div className="h-5 w-16 bg-muted animate-pulse rounded" />
         <div className="h-4 w-full bg-muted animate-pulse rounded" />
         <div className="h-4 w-3/4 bg-muted animate-pulse rounded" />
