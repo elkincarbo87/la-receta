@@ -86,6 +86,7 @@ DATABASE_URL="file:./dev.db"
 - **Componentize everything.** Prefer small, focused, reusable components over monolithic files.
 - **Think reusable.** Before writing code, ask: "Will I need this logic or UI elsewhere?" If yes, make it reusable.
 - **Run `npm run lint` after making changes.** Ensure the codebase passes linting before considering the task complete.
+- **Run `npm run build` after making changes.** Ensure the build completes successfully without errors before considering the task complete.
 
 ### Next.js Best Practices
 - **Always use `<Image />` from `next/image` instead of raw `<img>` tags.** This is required for automatic image optimization, proper lazy loading, and avoiding layout shift. For external or dynamic images (including base64 data URLs), use the `unoptimized` prop when Next.js image optimization is not applicable.
