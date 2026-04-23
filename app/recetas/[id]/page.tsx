@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
@@ -39,10 +40,13 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
       </div>
 
       {recipe.imageUrl && (
-        <img
+        <Image
           src={recipe.imageUrl}
           alt={recipe.name}
-          className="rounded-lg border max-h-64 object-cover"
+          width={800}
+          height={384}
+          unoptimized
+          className="rounded-lg border w-full max-h-96 object-cover"
         />
       )}
 

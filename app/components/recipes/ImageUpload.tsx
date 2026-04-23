@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ImagePlus, X } from "lucide-react";
 
@@ -46,9 +47,12 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
 
       {preview ? (
         <div className="relative inline-block">
-          <img
+          <Image
             src={preview}
             alt="Preview"
+            width={200}
+            height={192}
+            unoptimized
             className="rounded-lg border max-h-48 object-cover"
           />
           <Button

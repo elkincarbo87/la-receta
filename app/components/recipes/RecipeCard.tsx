@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StarRating } from "./StarRating";
@@ -8,7 +9,7 @@ interface RecipeCardProps {
   recipe: {
     id: string;
     name: string;
-    date: string;
+    date: string | Date;
     _count: { ingredients: number };
     tags: { id: string; name: string }[];
     rating: number | null;
@@ -27,9 +28,12 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
     <Link href={`/recetas/${recipe.id}`}>
       <Card className="hover:bg-accent/50 transition-colors cursor-pointer overflow-hidden">
         {recipe.imageUrl && (
-          <img
+          <Image
             src={recipe.imageUrl}
             alt={recipe.name}
+            width={400}
+            height={160}
+            unoptimized
             className="w-full h-40 object-cover"
           />
         )}
