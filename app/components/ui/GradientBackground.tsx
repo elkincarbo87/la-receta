@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export function GradientBackground() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0 bg-[#FAF9F7]" />
+      <div className="absolute inset-0 bg-background transition-colors duration-300" />
 
       <motion.div
         className="absolute -top-[20%] -left-[10%] w-[60vw] h-[60vw] rounded-full opacity-30 blur-3xl"

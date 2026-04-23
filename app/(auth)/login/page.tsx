@@ -39,7 +39,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative min-h-dvh flex items-center justify-center">
+    <div className="relative w-full min-h-dvh flex items-center justify-center px-4">
       {/* Floating decoration elements — hidden on mobile */}
       <motion.div
         className="absolute top-[10%] left-[15%] w-16 h-16 rounded-full bg-rose-100/50 blur-xl hidden sm:block"
@@ -80,7 +80,7 @@ export default function LoginPage() {
         }}
       />
 
-      <FadeIn className="w-full max-w-[360px] sm:max-w-md flex-shrink-0">
+      <FadeIn className="w-full max-w-[360px] sm:max-w-md">
         <div className="relative w-full sm:bg-white/70 sm:backdrop-blur-xl sm:rounded-3xl sm:border sm:border-border/50 sm:shadow-2xl px-6 py-12 sm:p-8">
           <div className="text-center mb-8">
             <motion.div
