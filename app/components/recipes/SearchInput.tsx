@@ -5,12 +5,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function SearchInput() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("search") ?? "";
   const [query, setQuery] = useState(initialQuery);
+  const [isFocused, setIsFocused] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,26 +34,45 @@ export function SearchInput() {
 
   return (
     <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
-      <div className="relative flex-1">
-        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+      <motion.div
+        className="relative flex-1"
+        animate={{
+          scale: isFocused ? 1.01 : 1,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      >
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           type="text"
           placeholder="Buscar receta..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="pl-9 pr-8"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className={`pl-10 pr-9 rounded-xl bg-white/60 backdrop-blur-sm border-border/60 transition-all duration-200 ${
+            isFocused
+              ? "ring-2 ring-primary/15 border-primary/20 shadow-lg"
+              : "hover:border-border/80"
+          }`}
         />
         {query && (
-          <button
+          <motion.button
             type="button"
             onClick={handleClear}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <X className="h-4 w-4" />
-          </button>
+          </motion.button>
         )}
-      </div>
-      <Button type="submit" size="sm">
+      </motion.div>
+      <Button
+        type="submit"
+        size="sm"
+        className="h-10 rounded-xl px-4 shadow-sm hover:shadow-md transition-shadow"
+      >
         Buscar
       </Button>
     </form>

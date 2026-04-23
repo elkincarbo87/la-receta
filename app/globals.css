@@ -31,65 +31,98 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Custom pastel tag colors */
+  --color-tag-rose: #FCE7F3;
+  --color-tag-rose-text: #BE185D;
+  --color-tag-emerald: #D1FAE5;
+  --color-tag-emerald-text: #047857;
+  --color-tag-amber: #FEF3C7;
+  --color-tag-amber-text: #B45309;
+  --color-tag-sky: #E0F2FE;
+  --color-tag-sky-text: #0369A1;
+  --color-tag-violet: #EDE9FE;
+  --color-tag-violet-text: #6D28D9;
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.25);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.216 0.006 56.043);
-  --primary-foreground: oklch(0.985 0.001 56.375);
-  --secondary: oklch(0.97 0.001 106.424);
-  --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.97 0.001 106.424);
-  --muted-foreground: oklch(0.553 0.013 58.071);
-  --accent: oklch(0.97 0.001 106.424);
-  --accent-foreground: oklch(0.216 0.006 56.043);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0.001 56.375);
-  --border: oklch(0.923 0.003 48.717);
-  --input: oklch(0.923 0.003 48.717);
-  --ring: oklch(0.709 0.015 56.063);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
+  --background: #FAF9F7;
+  --foreground: #2D2A26;
+  --card: #FFFFFF;
+  --card-foreground: #2D2A26;
+  --popover: #FFFFFF;
+  --popover-foreground: #2D2A26;
+  --primary: #2D2A26;
+  --primary-foreground: #FAF9F7;
+  --secondary: #F3F0EC;
+  --secondary-foreground: #2D2A26;
+  --muted: #F3F0EC;
+  --muted-foreground: #8C8680;
+  --accent: #F3F0EC;
+  --accent-foreground: #2D2A26;
+  --destructive: #DC2626;
+  --destructive-foreground: #FAF9F7;
+  --border: #EBE7E1;
+  --input: #EBE7E1;
+  --ring: #D4CFC8;
+  --chart-1: #E88C6A;
+  --chart-2: #7DB9A8;
+  --chart-3: #9B8EC2;
+  --chart-4: #E6B89C;
+  --chart-5: #C4A77D;
+  --radius: 0.875rem;
 }
 
 .dark {
-  --background: oklch(0.147 0.004 49.25);
-  --foreground: oklch(0.985 0.001 56.375);
-  --card: oklch(0.147 0.004 49.25);
-  --card-foreground: oklch(0.985 0.001 56.375);
-  --popover: oklch(0.147 0.004 49.25);
-  --popover-foreground: oklch(0.985 0.001 56.375);
-  --primary: oklch(0.985 0.001 56.375);
-  --primary-foreground: oklch(0.216 0.006 56.043);
-  --secondary: oklch(0.268 0.007 34.298);
-  --secondary-foreground: oklch(0.985 0.001 56.375);
-  --muted: oklch(0.268 0.007 34.298);
-  --muted-foreground: oklch(0.709 0.015 56.063);
-  --accent: oklch(0.268 0.007 34.298);
-  --accent-foreground: oklch(0.985 0.001 56.375);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.985 0.001 56.375);
-  --border: oklch(0.268 0.007 34.298);
-  --input: oklch(0.268 0.007 34.298);
-  --ring: oklch(0.553 0.013 58.071);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --background: #1C1917;
+  --foreground: #FAF9F7;
+  --card: #292524;
+  --card-foreground: #FAF9F7;
+  --popover: #292524;
+  --popover-foreground: #FAF9F7;
+  --primary: #FAF9F7;
+  --primary-foreground: #1C1917;
+  --secondary: #44403C;
+  --secondary-foreground: #FAF9F7;
+  --muted: #44403C;
+  --muted-foreground: #A8A29E;
+  --accent: #44403C;
+  --accent-foreground: #FAF9F7;
+  --destructive: #EF4444;
+  --destructive-foreground: #FAF9F7;
+  --border: #44403C;
+  --input: #44403C;
+  --ring: #78716C;
+  --chart-1: #E88C6A;
+  --chart-2: #7DB9A8;
+  --chart-3: #9B8EC2;
+  --chart-4: #E6B89C;
+  --chart-5: #C4A77D;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Shimmer animation for skeletons */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--muted) / 0.5) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }

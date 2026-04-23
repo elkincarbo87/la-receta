@@ -9,15 +9,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type SortOption =
-  | "date_desc"
-  | "date_asc"
-  | "name_asc"
-  | "name_desc"
-  | "rating_desc"
-  | "rating_asc";
-
-const sortLabels: Record<SortOption, string> = {
+const sortLabels: Record<
+  string,
+  string
+> = {
   date_desc: "Más reciente",
   date_asc: "Más antiguo",
   name_asc: "Nombre (A-Z)",
@@ -29,9 +24,9 @@ const sortLabels: Record<SortOption, string> = {
 export function SortSelect() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentSort = (searchParams.get("sort") as SortOption) ?? "date_desc";
+  const currentSort = searchParams.get("sort") ?? "date_desc";
 
-  function handleChange(value: SortOption) {
+  function handleChange(value: string) {
     const params = new URLSearchParams(searchParams);
     if (value === "date_desc") {
       params.delete("sort");
@@ -43,12 +38,16 @@ export function SortSelect() {
 
   return (
     <Select value={currentSort} onValueChange={handleChange}>
-      <SelectTrigger className="w-full sm:w-[180px]">
+      <SelectTrigger className="w-full sm:w-[180px] rounded-xl bg-white/60 backdrop-blur-sm border-border/60 h-10">
         <SelectValue placeholder="Ordenar por..." />
       </SelectTrigger>
-      <SelectContent>
-        {(Object.keys(sortLabels) as SortOption[]).map((key) => (
-          <SelectItem key={key} value={key}>
+      <SelectContent className="rounded-xl border-border/60">
+        {Object.keys(sortLabels).map((key) => (
+          <SelectItem
+            key={key}
+            value={key}
+            className="rounded-lg cursor-pointer focus:bg-primary/5"
+          >
             {sortLabels[key]}
           </SelectItem>
         ))}

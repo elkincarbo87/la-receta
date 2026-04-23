@@ -3,6 +3,8 @@ import { RecipeCard } from "./components/recipes/RecipeCard";
 import { EmptyState } from "./components/recipes/EmptyState";
 import { SearchInput } from "./components/recipes/SearchInput";
 import { SortSelect } from "./components/recipes/SortSelect";
+import { FadeIn } from "./components/ui/FadeIn";
+import { StaggerContainer, StaggerItem } from "./components/ui/StaggerContainer";
 
 export const dynamic = "force-dynamic";
 
@@ -37,18 +39,28 @@ export default async function Home({
 
   if (recipes.length === 0) {
     return (
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold tracking-tight">Recetas</h1>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
-            <SearchInput />
-            <SortSelect />
+      <div className="space-y-8">
+        <FadeIn>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">Recetas</h1>
+              <p className="text-muted-foreground mt-1">
+                Gestiona tus experimentos de helado
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+              <SearchInput />
+              <SortSelect />
+            </div>
           </div>
-        </div>
+        </FadeIn>
+
         {isSearching ? (
-          <div className="text-center py-12 text-muted-foreground">
-            <p>No se encontraron recetas para &quot;{search}&quot;.</p>
-          </div>
+          <FadeIn delay={0.2}>
+            <div className="text-center py-12 text-muted-foreground">
+              <p>No se encontraron recetas para &quot;{search}&quot;.</p>
+            </div>
+          </FadeIn>
         ) : (
           <EmptyState />
         )}
@@ -57,24 +69,41 @@ export default async function Home({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold tracking-tight">Recetas</h1>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
-          <SearchInput />
-          <SortSelect />
+    <div className="space-y-8">
+      <FadeIn>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Recetas</h1>
+            <p className="text-muted-foreground mt-1">
+              Gestiona tus experimentos de helado
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+            <SearchInput />
+            <SortSelect />
+          </div>
         </div>
-      </div>
-      <p className="text-muted-foreground">
-        {isSearching
-          ? `${recipes.length} resultado${recipes.length === 1 ? "" : "s"} para "${search}"`
-          : `${recipes.length} ${recipes.length === 1 ? "receta" : "recetas"} guardadas`}
-      </p>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      </FadeIn>
+
+      <FadeIn delay={0.1}>
+        <p className="text-sm text-muted-foreground">
+          {isSearching
+            ? `${recipes.length} resultado${recipes.length === 1 ? "" : "s"} para "${search}"`
+            : `${recipes.length} ${recipes.length === 1 ? "receta" : "recetas"} guardadas`}
+        </p>
+      </FadeIn>
+
+      <StaggerContainer
+        className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        staggerDelay={0.05}
+        delayChildren={0.15}
+      >
         {recipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
+          <StaggerItem key={recipe.id}>
+            <RecipeCard recipe={recipe} />
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </div>
   );
 }

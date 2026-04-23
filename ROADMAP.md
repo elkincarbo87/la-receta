@@ -21,14 +21,13 @@ Scale up the workflow.
 - [x] **Batch / Scaling** – auto-calculate ingredient quantities when scaling a recipe up or down
 - [x] **Image Upload** – attach a photo of the finished batch (base64 in SQLite)
 - [x] **Export to PDF** – printable recipe card for the kitchen
-- [ ] **Shared Collections** – public or invite-only recipe collections
 
 ## Future – v1.0 (Long Term)
 Professional-grade tool.
-- [ ] **User Accounts** – multi-user support with auth (NextAuth.js v5) ✅
-- [ ] **Version History** – track changes across recipe iterations
-- [ ] **Analytics Dashboard** – visualize ingredient costs, success rates, seasonal trends
-- [ ] **API / Integrations** – webhooks, export to Google Sheets, POS integrations
+- [x] **User Accounts** – multi-user support with auth (NextAuth.js v5)
+- [x] **Version History** – track changes across recipe iterations
+- [x] **Analytics Dashboard** – visualize ingredient costs, success rates, seasonal trends
+- [x] **API / Integrations** – webhooks, export to Google Sheets, POS integrations
 
 ## Deployment Milestones
 | Milestone | Target | Status |
