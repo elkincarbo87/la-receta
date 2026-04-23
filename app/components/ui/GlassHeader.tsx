@@ -70,9 +70,10 @@ export function GlassHeader() {
           {session && (
             <Badge
               variant="secondary"
-              className="hidden sm:inline-flex text-xs"
+              className="hidden sm:inline-flex text-xs gap-1"
             >
               {session.user.name || session.user.email}
+              <span className="text-muted-foreground">({session.user.role})</span>
             </Badge>
           )}
 
