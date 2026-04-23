@@ -8,7 +8,7 @@ See `ROADMAP.md` for upcoming features and priorities.
 ## Tech Stack
 - **Framework**: Next.js 15 (App Router)
 - **UI**: React 19, Tailwind CSS, shadcn/ui
-- **Database**: Prisma ORM + SQLite (local dev) / PostgreSQL (production via Vercel Marketplace)
+- **Database**: Prisma ORM + Supabase PostgreSQL
 - **Forms**: React Hook Form + Zod
 - **Icons**: Lucide React
 
@@ -69,9 +69,18 @@ model Ingredient {
 - `npx shadcn add <component>` – add UI components
 
 ## Environment Variables
+
+### Local Development (`.env`)
 ```
-DATABASE_URL="file:./dev.db"
+DIRECT_URL="postgresql://postgres:[PASS]@db.[REF].supabase.co:5432/postgres"
+DATABASE_URL="postgresql://postgres:[PASS]@db.[REF].supabase.co:6543/postgres?pgbouncer=true&connection_limit=1"
 ```
+
+### Vercel Production
+Set the same two variables in your Vercel project settings. Use the **Pooled Connection** (port 6543) for `DATABASE_URL`.
+
+### Why Two URLs?
+Supabase uses a connection pooler for serverless compatibility. `DATABASE_URL` (port 6543) is pooled and used by the running app. `DIRECT_URL` (port 5432) is direct and used by Prisma for migrations.
 
 ## Rules for Claude Code
 
