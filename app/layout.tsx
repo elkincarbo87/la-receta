@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { IceCream } from "lucide-react";
+import NextTopLoader from "nextjs-toploader";
 import { SessionProviderWrapper } from "./components/auth/SessionProviderWrapper";
 import { UserNav } from "./components/auth/UserNav";
 import "./globals.css";
@@ -32,6 +33,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <NextTopLoader
+          color="hsl(var(--primary))"
+          height={3}
+          showSpinner={false}
+        />
         <SessionProviderWrapper>
           <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex h-14 items-center">
