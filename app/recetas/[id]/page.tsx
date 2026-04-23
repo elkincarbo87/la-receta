@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StarRating } from "@/app/components/recipes/StarRating";
 import { RecipeActions } from "@/app/components/recipes/RecipeActions";
+import { RecipeImage } from "@/app/components/recipes/RecipeImage";
 import { Calendar, ArrowLeft, Tag } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -40,12 +40,11 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
       </div>
 
       {recipe.imageUrl && (
-        <Image
+        <RecipeImage
           src={recipe.imageUrl}
           alt={recipe.name}
           width={800}
           height={384}
-          unoptimized
           className="rounded-lg border w-full max-h-96 object-cover"
         />
       )}
