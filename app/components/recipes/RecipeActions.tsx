@@ -28,7 +28,7 @@ interface RecipeActionsProps {
     date: Date;
     notes: string | null;
     rating: number | null;
-    imageUrl: string | null;
+    photos: { id: string; url: string }[];
     ingredients: Ingredient[];
     tags: Tag[];
   };

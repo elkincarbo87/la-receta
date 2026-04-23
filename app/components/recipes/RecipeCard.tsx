@@ -13,7 +13,7 @@ interface RecipeCardProps {
     _count: { ingredients: number };
     tags: { id: string; name: string }[];
     rating: number | null;
-    imageUrl: string | null;
+    photos: { id: string; url: string }[];
   };
 }
 
@@ -24,12 +24,14 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
     day: "numeric",
   });
 
+  const firstPhoto = recipe.photos[0]?.url ?? null;
+
   return (
     <Link href={`/recetas/${recipe.id}`} className="block h-full">
       <Card className="h-[340px] flex flex-col gap-0 p-0 hover:bg-accent/50 transition-colors cursor-pointer overflow-hidden">
         <div className="relative flex-1 min-h-0 overflow-hidden">
           <RecipeImage
-            src={recipe.imageUrl}
+            src={firstPhoto}
             alt={recipe.name}
           />
         </div>

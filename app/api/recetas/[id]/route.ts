@@ -8,7 +8,13 @@ export async function GET(
   const { id } = await params;
   const recipe = await prisma.recipe.findUnique({
     where: { id },
-    include: { ingredients: true, tags: true },
+    include: {
+      ingredients: true,
+      tags: true,
+      photos: {
+        orderBy: { order: "asc" },
+      },
+    },
   });
 
   if (!recipe) {
@@ -25,9 +31,10 @@ export async function PUT(
   const { id } = await params;
   try {
     const body = await request.json();
-    const { name, date, notes, ingredients, tags, rating, imageUrl } = body;
+    const { name, date, notes, ingredients, tags, rating, photos } = body;
 
     await prisma.ingredient.deleteMany({ where: { recipeId: id } });
+    await prisma.photo.deleteMany({ where: { recipeId: id } });
 
     const currentRecipe = await prisma.recipe.findUnique({
       where: { id },
@@ -41,6 +48,11 @@ export async function PUT(
       create: { name: tagName },
     }));
 
+    const photoData = photos?.map((url: string, index: number) => ({
+      url,
+      order: index,
+    }));
+
     const recipe = await prisma.recipe.update({
       where: { id },
       data: {
@@ -48,7 +60,6 @@ export async function PUT(
         date: date ? new Date(date) : undefined,
         notes,
         rating,
-        imageUrl,
         ingredients: {
           create: ingredients,
         },
@@ -56,8 +67,17 @@ export async function PUT(
           disconnect: currentTagIds.map((id) => ({ id })),
           connectOrCreate: tagData,
         },
+        photos: {
+          create: photoData,
+        },
       },
-      include: { ingredients: true, tags: true },
+      include: {
+        ingredients: true,
+        tags: true,
+        photos: {
+          orderBy: { order: "asc" },
+        },
+      },
     });
 
     return NextResponse.json(recipe);

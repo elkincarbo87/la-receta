@@ -10,7 +10,7 @@ export async function POST(
   try {
     const original = await prisma.recipe.findUnique({
       where: { id },
-      include: { ingredients: true, tags: true },
+      include: { ingredients: true, tags: true, photos: true },
     });
 
     if (!original) {
@@ -28,7 +28,6 @@ export async function POST(
         date: original.date,
         notes: original.notes,
         rating: original.rating,
-        imageUrl: original.imageUrl,
         ingredients: {
           create: original.ingredients.map((i) => ({
             name: i.name,
@@ -39,8 +38,14 @@ export async function POST(
         tags: {
           connectOrCreate: tagData,
         },
+        photos: {
+          create: original.photos.map((p) => ({
+            url: p.url,
+            order: p.order,
+          })),
+        },
       },
-      include: { ingredients: true, tags: true },
+      include: { ingredients: true, tags: true, photos: true },
     });
 
     return NextResponse.json(duplicated, { status: 201 });

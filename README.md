@@ -16,6 +16,7 @@ A web application for saving, viewing, and managing ice cream recipes. Each reci
 - Create, read, update, and delete ice cream recipes
 - Manage ingredients with quantities and units per recipe
 - Add optional notes, ratings, and tags
+- Upload multiple images per recipe with gallery view
 - Responsive, clean UI with neutral tones
 
 ## Project Structure
@@ -103,11 +104,11 @@ model Recipe {
   date        DateTime     @default(now())
   notes       String?
   rating      Int?
-  imageUrl    String?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   ingredients Ingredient[]
   tags        Tag[]
+  photos      Photo[]
 }
 
 model Ingredient {
@@ -123,6 +124,15 @@ model Tag {
   id      String @id @default(cuid())
   name    String @unique
   recipes Recipe[]
+}
+
+model Photo {
+  id        String   @id @default(cuid())
+  url       String
+  order     Int      @default(0)
+  recipeId  String
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 ```
 

@@ -37,13 +37,16 @@ prisma/
 ## Database Schema
 ```prisma
 model Recipe {
-  id        String   @id @default(cuid())
-  name      String
-  date      DateTime @default(now())
-  notes     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String       @id @default(cuid())
+  name        String       @unique
+  date        DateTime     @default(now())
+  notes       String?
+  rating      Int?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   ingredients Ingredient[]
+  tags        Tag[]
+  photos      Photo[]
 }
 
 model Ingredient {
@@ -53,6 +56,15 @@ model Ingredient {
   unit     String
   recipeId String
   recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}
+
+model Photo {
+  id        String   @id @default(cuid())
+  url       String
+  order     Int      @default(0)
+  recipeId  String
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 ```
 

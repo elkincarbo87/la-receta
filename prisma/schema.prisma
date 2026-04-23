@@ -14,11 +14,22 @@ model Recipe {
   date      DateTime @default(now())
   notes     String?
   rating    Int?
-  imageUrl  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   ingredients Ingredient[]
   tags      Tag[]
+  photos    Photo[]
+}
+
+model Photo {
+  id        String   @id @default(cuid())
+  url       String
+  order     Int      @default(0)
+  recipeId  String
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([recipeId])
 }
 
 model Ingredient {

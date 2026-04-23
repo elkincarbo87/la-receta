@@ -26,7 +26,7 @@ const recipeSchema = z.object({
   notes: z.string().optional(),
   tags: z.array(z.string()),
   rating: z.number().min(0).max(5).nullable().optional(),
-  imageUrl: z.string().nullable().optional(),
+  photos: z.array(z.string()),
   ingredients: z.array(ingredientSchema).min(1, "Agrega al menos un ingrediente"),
 });
 
@@ -50,7 +50,7 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
       notes: "",
       tags: [],
       rating: null,
-      imageUrl: null,
+      photos: [],
       ingredients: [{ name: "", quantity: "", unit: "" }],
     },
   });
@@ -62,7 +62,7 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
 
   const tags = useWatch({ control: form.control, name: "tags" }) ?? [];
   const rating = useWatch({ control: form.control, name: "rating" }) ?? null;
-  const imageUrl = useWatch({ control: form.control, name: "imageUrl" }) ?? null;
+  const photos = useWatch({ control: form.control, name: "photos" }) ?? [];
 
   async function onSubmit(data: RecipeFormValues) {
     setSubmitting(true);
@@ -114,10 +114,10 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
         </div>
 
         <div className="space-y-2">
-          <Label>Imagen</Label>
+          <Label>Imágenes</Label>
           <ImageUpload
-            value={imageUrl}
-            onChange={(url) => form.setValue("imageUrl", url, { shouldValidate: true })}
+            value={photos}
+            onChange={(urls) => form.setValue("photos", urls, { shouldValidate: true })}
           />
         </div>
 

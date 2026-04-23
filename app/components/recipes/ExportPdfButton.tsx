@@ -24,7 +24,7 @@ interface ExportPdfButtonProps {
     date: Date;
     notes: string | null;
     rating: number | null;
-    imageUrl: string | null;
+    photos: { id: string; url: string }[];
     ingredients: Ingredient[];
     tags: Tag[];
   };
@@ -67,13 +67,12 @@ export function ExportPdfButton({ recipe, scale = 1 }: ExportPdfButtonProps) {
       y += 8;
     }
 
-    if (recipe.imageUrl) {
+    const firstPhoto = recipe.photos[0]?.url;
+    if (firstPhoto) {
       try {
-        const img = new Image();
-        img.src = recipe.imageUrl;
         const imgWidth = pageWidth - margin * 2;
         const imgHeight = 60;
-        doc.addImage(recipe.imageUrl, "JPEG", margin, y, imgWidth, imgHeight);
+        doc.addImage(firstPhoto, "JPEG", margin, y, imgWidth, imgHeight);
         y += imgHeight + 8;
       } catch {
         // Skip image if it fails to load

@@ -26,6 +26,10 @@ export default async function Home({
         select: { ingredients: true },
       },
       tags: true,
+      photos: {
+        orderBy: { order: "asc" },
+        take: 1,
+      },
     },
   });
 
@@ -63,7 +67,7 @@ export default async function Home({
       </div>
       <p className="text-muted-foreground">
         {isSearching
-          ? `${recipes.length} resultado${recipes.length === 1 ? "" : "s"} para “${search}”`
+          ? `${recipes.length} resultado${recipes.length === 1 ? "" : "s"} para "${search}"`
           : `${recipes.length} ${recipes.length === 1 ? "receta" : "recetas"} guardadas`}
       </p>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
