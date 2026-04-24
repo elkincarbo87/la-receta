@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { SessionProviderWrapper } from "./components/auth/SessionProviderWrapper";
 import { ThemeProvider } from "./components/ui/ThemeProvider";
+import { ThemeColorMeta } from "./components/ui/ThemeColorMeta";
 import { GlassHeader } from "./components/ui/GlassHeader";
 import { GradientBackground } from "./components/ui/GradientBackground";
 import "./globals.css";
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FAF9F7" },
+    { media: "(prefers-color-scheme: dark)", color: "#1C1917" },
+  ],
 };
 
 export default function RootLayout({
@@ -45,6 +50,7 @@ export default function RootLayout({
         />
         <SessionProviderWrapper>
           <ThemeProvider>
+            <ThemeColorMeta />
             <GradientBackground />
             <GlassHeader />
             <main className="flex-1 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
