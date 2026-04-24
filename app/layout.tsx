@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { SessionProviderWrapper } from "./components/auth/SessionProviderWrapper";
@@ -20,6 +20,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Casa Nieve Lab - Ice Cream Recipe Tracker",
   description: "Save and manage your ice cream recipes",
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({

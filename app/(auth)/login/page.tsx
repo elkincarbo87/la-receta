@@ -42,7 +42,7 @@ export default function LoginPage() {
     <div className="relative w-full min-h-dvh flex items-center justify-center px-4">
       {/* Floating decoration elements — hidden on mobile */}
       <motion.div
-        className="absolute top-[10%] left-[15%] w-16 h-16 rounded-full bg-rose-100/50 blur-xl hidden sm:block"
+        className="absolute top-[10%] left-[15%] w-16 h-16 rounded-full bg-rose-200/50 dark:bg-rose-900/30 blur-xl hidden sm:block"
         animate={{
           y: [0, -20, 0],
           x: [0, 10, 0],
@@ -54,7 +54,7 @@ export default function LoginPage() {
         }}
       />
       <motion.div
-        className="absolute bottom-[20%] right-[10%] w-20 h-20 rounded-full bg-emerald-100/40 blur-xl hidden sm:block"
+        className="absolute bottom-[20%] right-[10%] w-20 h-20 rounded-full bg-emerald-200/50 dark:bg-emerald-900/30 blur-xl hidden sm:block"
         animate={{
           y: [0, 15, 0],
           x: [0, -15, 0],
@@ -67,7 +67,7 @@ export default function LoginPage() {
         }}
       />
       <motion.div
-        className="absolute top-[30%] right-[20%] w-12 h-12 rounded-full bg-amber-100/40 blur-xl hidden sm:block"
+        className="absolute top-[30%] right-[20%] w-12 h-12 rounded-full bg-amber-200/50 dark:bg-amber-900/30 blur-xl hidden sm:block"
         animate={{
           y: [0, -15, 0],
           scale: [1, 1.1, 1],
@@ -81,10 +81,10 @@ export default function LoginPage() {
       />
 
       <FadeIn className="w-full max-w-[360px] sm:max-w-md">
-        <div className="relative w-full sm:bg-white/70 sm:backdrop-blur-xl sm:rounded-3xl sm:border sm:border-border/50 sm:shadow-2xl px-6 py-12 sm:p-8">
+        <div className="relative w-full sm:bg-card/80 sm:backdrop-blur-xl sm:rounded-3xl sm:border sm:border-border/50 sm:shadow-2xl px-6 py-12 sm:p-8">
           <div className="text-center mb-8">
             <motion.div
-              className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-50 to-amber-50 border border-border/50 shadow-sm mb-4"
+              className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border border-border/50 shadow-sm mb-4"
               animate={{ y: [0, -6, 0] }}
               transition={{
                 duration: 4,
@@ -92,7 +92,7 @@ export default function LoginPage() {
                 ease: "easeInOut",
               }}
             >
-              <IceCream className="h-8 w-8 text-primary/80" />
+              <IceCream className="h-8 w-8 text-primary" />
             </motion.div>
             <h1 className="text-2xl font-bold tracking-tight">Casa Nieve Lab</h1>
             <p className="text-muted-foreground text-sm mt-1">
@@ -113,7 +113,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="h-10 rounded-xl bg-white/50 backdrop-blur-sm border-border/60 focus:ring-2 focus:ring-primary/15 focus:border-primary/20 transition-all"
+                className="h-10 rounded-xl bg-white/50 dark:bg-white/10 backdrop-blur-sm border-border/60 focus:ring-2 focus:ring-primary/15 focus:border-primary/20 transition-all"
               />
             </div>
 
@@ -129,7 +129,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="h-10 rounded-xl bg-white/50 backdrop-blur-sm border-border/60 focus:ring-2 focus:ring-primary/15 focus:border-primary/20 transition-all"
+                className="h-10 rounded-xl bg-white/50 dark:bg-white/10 backdrop-blur-sm border-border/60 focus:ring-2 focus:ring-primary/15 focus:border-primary/20 transition-all"
               />
             </div>
 
