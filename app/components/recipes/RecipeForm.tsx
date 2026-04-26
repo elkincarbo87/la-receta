@@ -262,16 +262,25 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
         <p className="text-sm text-destructive">{form.formState.errors.root.message}</p>
       )}
 
-      <div className="flex flex-wrap items-center gap-3 pt-4">
-        <Button type="submit" disabled={submitting}>
-          {submitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-          {isEditing ? "Guardar cambios" : "Guardar receta"}
+      <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 pt-4">
+        <Button type="submit" disabled={submitting} className="whitespace-nowrap">
+          {submitting && (
+            <Loader2 className="h-4 w-4 mr-2 animate-spin shrink-0" />
+          )}
+          <span className="whitespace-nowrap">
+            {submitting
+              ? "Guardando..."
+              : isEditing
+              ? "Guardar cambios"
+              : "Guardar receta"}
+          </span>
         </Button>
         <Button
           type="button"
           variant="outline"
           onClick={() => router.back()}
           disabled={submitting}
+          className="whitespace-nowrap"
         >
           Cancelar
         </Button>
