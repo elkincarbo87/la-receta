@@ -68,6 +68,7 @@ model Recipe {
   date        DateTime @default(now())
   notes       String?
   rating      Int?
+  cost        Float?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   userId      String?

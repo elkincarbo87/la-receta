@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StarRating } from "@/app/components/recipes/StarRating";
 import { RecipeActions } from "@/app/components/recipes/RecipeActions";
 import { PhotoGallery } from "@/app/components/recipes/PhotoGallery";
-import { Calendar, ArrowLeft, Tag } from "lucide-react";
+import { Calendar, ArrowLeft, Tag, DollarSign } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -56,6 +56,12 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
         </div>
         {recipe.rating != null && (
           <StarRating rating={recipe.rating} />
+        )}
+        {recipe.cost != null && (
+          <div className="flex items-center gap-1.5 text-muted-foreground">
+            <DollarSign className="h-4 w-4 shrink-0" />
+            <span>{recipe.cost}</span>
+          </div>
         )}
         {recipe.tags.length > 0 && (
           <div className="flex flex-wrap gap-1">

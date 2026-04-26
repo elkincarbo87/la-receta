@@ -34,6 +34,7 @@ export async function POST(
         date: original.date,
         notes: original.notes,
         rating: original.rating,
+        cost: original.cost,
         userId: session.user.id,
         ingredients: {
           create: original.ingredients.map((i) => ({

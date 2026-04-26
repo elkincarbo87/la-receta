@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StarRating } from "./StarRating";
 import { RecipeImage } from "./RecipeImage";
-import { Calendar, FlaskConical, Tag } from "lucide-react";
+import { Calendar, FlaskConical, Tag, DollarSign } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface RecipeCardProps {
@@ -16,6 +16,7 @@ interface RecipeCardProps {
     _count: { ingredients: number };
     tags: { id: string; name: string }[];
     rating: number | null;
+    cost: number | null;
     photos: { id: string; url: string }[];
   };
 }
@@ -73,6 +74,12 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
               <FlaskConical className="h-3.5 w-3.5 shrink-0" />
               <span>{recipe._count.ingredients} ingredientes</span>
             </div>
+            {recipe.cost != null && (
+              <div className="flex items-center gap-1.5 text-muted-foreground">
+                <DollarSign className="h-3.5 w-3.5 shrink-0" />
+                <span>{recipe.cost}</span>
+              </div>
+            )}
             <div className="h-5">
               {recipe.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5">

@@ -32,7 +32,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { name, date, notes, ingredients, tags, rating, photos } = body;
+    const { name, date, notes, ingredients, tags, rating, cost, photos } = body;
+
+    const normalizedCost =
+      cost === undefined || cost === null || Number.isNaN(cost)
+        ? null
+        : Number(cost);
 
     const tagData = tags?.map((tagName: string) => ({
       where: { name: tagName },
@@ -50,6 +55,7 @@ export async function POST(request: NextRequest) {
         date: date ? new Date(date) : new Date(),
         notes,
         rating,
+        cost: normalizedCost,
         userId: session.user.id,
         ingredients: {
           create: ingredients,
@@ -73,8 +79,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(recipe, { status: 201 });
   } catch (error) {
     console.error("Error creating recipe:", error);
+    const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "Failed to create recipe" },
+      {
+        error: "Failed to create recipe",
+        details: message,
+      },
       { status: 500 }
     );
   }

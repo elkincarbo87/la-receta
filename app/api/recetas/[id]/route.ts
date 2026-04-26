@@ -42,7 +42,12 @@ export async function PUT(
   const { id } = await params;
   try {
     const body = await request.json();
-    const { name, date, notes, ingredients, tags, rating, photos } = body;
+    const { name, date, notes, ingredients, tags, rating, cost, photos } = body;
+
+    const normalizedCost =
+      cost === undefined || cost === null || Number.isNaN(cost)
+        ? null
+        : Number(cost);
 
     await prisma.ingredient.deleteMany({ where: { recipeId: id } });
     await prisma.photo.deleteMany({ where: { recipeId: id } });
@@ -71,6 +76,7 @@ export async function PUT(
         date: date ? new Date(date) : undefined,
         notes,
         rating,
+        cost: normalizedCost,
         ingredients: {
           create: ingredients,
         },
@@ -94,8 +100,12 @@ export async function PUT(
     return NextResponse.json(recipe);
   } catch (error) {
     console.error("Error updating recipe:", error);
+    const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "Failed to update recipe" },
+      {
+        error: "Failed to update recipe",
+        details: message,
+      },
       { status: 500 }
     );
   }

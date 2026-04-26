@@ -26,6 +26,7 @@ const recipeSchema = z.object({
   notes: z.string().optional(),
   tags: z.array(z.string()),
   rating: z.number().min(0).max(5).nullable().optional(),
+  cost: z.number().min(0).nullable().optional(),
   photos: z.array(z.string()),
   ingredients: z.array(ingredientSchema).min(1, "Agrega al menos un ingrediente"),
 });
@@ -50,6 +51,7 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
       notes: "",
       tags: [],
       rating: null,
+      cost: null,
       photos: [],
       ingredients: [{ name: "", quantity: "", unit: "" }],
     },
@@ -70,10 +72,18 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
       const url = isEditing ? `/api/recetas/${recipeId}` : "/api/recetas";
       const method = isEditing ? "PUT" : "POST";
 
+      const payload = {
+        ...data,
+        cost:
+          data.cost === undefined || Number.isNaN(data.cost)
+            ? null
+            : data.cost,
+      };
+
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
@@ -81,7 +91,10 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
         console.error("Error saving recipe:", res.status, errorBody);
         form.setError("root", {
           type: "manual",
-          message: errorBody.error || `Error ${res.status}: No se pudo guardar la receta.`,
+          message:
+            errorBody.details ||
+            errorBody.error ||
+            `Error ${res.status}: No se pudo guardar la receta.`,
         });
         return;
       }
@@ -125,6 +138,26 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
             rating={rating}
             onChange={(r) => form.setValue("rating", r, { shouldValidate: true })}
           />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="cost">Costo</Label>
+          <Input
+            id="cost"
+            type="number"
+            step="0.01"
+            min="0"
+            {...form.register("cost", {
+              setValueAs: (v) => {
+                const parsed = parseFloat(v);
+                return Number.isNaN(parsed) ? null : parsed;
+              },
+            })}
+            placeholder="Ej. 25.50"
+          />
+          {form.formState.errors.cost && (
+            <p className="text-sm text-destructive">{form.formState.errors.cost.message}</p>
+          )}
         </div>
 
         <div className="space-y-2">
