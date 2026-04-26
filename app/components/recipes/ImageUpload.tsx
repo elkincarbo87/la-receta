@@ -10,57 +10,91 @@ interface ImageUploadProps {
   onChange: (value: string[]) => void;
 }
 
+const MAX_FILE_SIZE_MB = 5;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+const MAX_DIMENSION = 1200;
+
+function compressImage(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new window.Image();
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      img.src = reader.result as string;
+    };
+    reader.onerror = () => reject(new Error(`Error al leer ${file.name}`));
+    reader.readAsDataURL(file);
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      let { width, height } = img;
+
+      if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+        if (width > height) {
+          height = Math.round((height * MAX_DIMENSION) / width);
+          width = MAX_DIMENSION;
+        } else {
+          width = Math.round((width * MAX_DIMENSION) / height);
+          height = MAX_DIMENSION;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        reject(new Error("No se pudo crear el canvas"));
+        return;
+      }
+      ctx.drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL("image/jpeg", 0.85));
+    };
+
+    img.onerror = () => reject(new Error(`Error al cargar ${file.name}`));
+  });
+}
+
 export function ImageUpload({ value, onChange }: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const inputId = useId();
   const [errors, setErrors] = useState<string[]>([]);
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    const totalFiles = files.length;
     const newPreviews: string[] = [];
     const newErrors: string[] = [];
-    let processed = 0;
 
-    Array.from(files).forEach((file) => {
+    for (const file of Array.from(files)) {
       if (!file.type.startsWith("image/")) {
         newErrors.push(`${file.name} no es una imagen válida.`);
-        processed++;
-        if (processed === totalFiles) {
-          finalize(newPreviews, newErrors);
-        }
-        return;
+        continue;
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (reader.result) {
-          newPreviews.push(reader.result as string);
-        }
-        processed++;
-        if (processed === totalFiles) {
-          finalize(newPreviews, newErrors);
-        }
-      };
-      reader.onerror = () => {
-        newErrors.push(`Error al leer ${file.name}.`);
-        processed++;
-        if (processed === totalFiles) {
-          finalize(newPreviews, newErrors);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  }
+      if (file.size > MAX_FILE_SIZE_BYTES) {
+        newErrors.push(
+          `${file.name} excede ${MAX_FILE_SIZE_MB} MB.`
+        );
+        continue;
+      }
 
-  function finalize(previews: string[], fileErrors: string[]) {
-    if (previews.length > 0) {
-      onChange([...value, ...previews]);
+      try {
+        const dataUrl = await compressImage(file);
+        newPreviews.push(dataUrl);
+      } catch {
+        newErrors.push(`Error al procesar ${file.name}.`);
+      }
     }
-    setErrors(fileErrors);
-    setTimeout(() => setErrors([]), 5000);
+
+    if (newPreviews.length > 0) {
+      onChange([...value, ...newPreviews]);
+    }
+
+    setErrors(newErrors);
+    if (newErrors.length > 0) {
+      setTimeout(() => setErrors([]), 5000);
+    }
 
     if (inputRef.current) {
       inputRef.current.value = "";

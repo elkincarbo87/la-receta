@@ -76,11 +76,25 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
         body: JSON.stringify(data),
       });
 
-      if (res.ok) {
-        const recipe = await res.json();
-        router.push(`/recetas/${recipe.id}`);
-        router.refresh();
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => ({}));
+        console.error("Error saving recipe:", res.status, errorBody);
+        form.setError("root", {
+          type: "manual",
+          message: errorBody.error || `Error ${res.status}: No se pudo guardar la receta.`,
+        });
+        return;
       }
+
+      const recipe = await res.json();
+      router.push(`/recetas/${recipe.id}`);
+      router.refresh();
+    } catch (err) {
+      console.error("Network error saving recipe:", err);
+      form.setError("root", {
+        type: "manual",
+        message: "Error de red. Verifica tu conexión e intenta de nuevo.",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -210,6 +224,10 @@ export function RecipeForm({ defaultValues, recipeId }: RecipeFormProps) {
           <p className="text-sm text-destructive">{form.formState.errors.ingredients.root.message}</p>
         )}
       </div>
+
+      {form.formState.errors.root && (
+        <p className="text-sm text-destructive">{form.formState.errors.root.message}</p>
+      )}
 
       <div className="flex flex-wrap items-center gap-3 pt-4">
         <Button type="submit" disabled={submitting}>
