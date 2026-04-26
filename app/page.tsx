@@ -15,7 +15,26 @@ export default async function Home({
 }) {
   const { search, sort } = await searchParams;
   const whereClause = search
-    ? { name: { contains: search } }
+    ? {
+        OR: [
+          { name: { contains: search, mode: "insensitive" as const } },
+          { notes: { contains: search, mode: "insensitive" as const } },
+          {
+            ingredients: {
+              some: {
+                name: { contains: search, mode: "insensitive" as const },
+              },
+            },
+          },
+          {
+            tags: {
+              some: {
+                name: { contains: search, mode: "insensitive" as const },
+              },
+            },
+          },
+        ],
+      }
     : {};
 
   const orderBy = getOrderBy(sort);
