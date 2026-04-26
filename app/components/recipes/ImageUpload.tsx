@@ -132,10 +132,11 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
                 type="button"
                 variant="destructive"
                 size="icon"
-                className="absolute -top-2 -right-2 h-6 w-6 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute -top-2 -right-2 h-8 w-8 sm:h-6 sm:w-6 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                 onClick={() => handleRemove(index)}
+                aria-label={`Eliminar imagen ${index + 1}`}
               >
-                <X className="h-3 w-3" />
+                <X className="h-4 w-4 sm:h-3 sm:w-3" />
               </Button>
             </div>
           ))}
